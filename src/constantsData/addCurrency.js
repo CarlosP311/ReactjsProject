@@ -8,8 +8,8 @@ export const addCurrency = [
     moralis_coin_name: "", // Value is used to fetch data dynamically from moralis API transaction response (For this value refer moralis doc. for ex. for getting ethereum based transaction from moralis)
     tatum_coin_name: "bitcoin", // Value is used to fetch data dynamically from tatum API response (For this value refer tatum doc)
     is_erc20: false, // Value is used to specify whether the currency is ero20 Token or not (true for erc20, bep20 else false)
-    default_enabled: false, // To specify whether currency is enabled or disabled by default
-    transaction_link: "https://www.blockchain.com/btc-testnet/tx/", // Value of Base URL to visit transaction details page based on hash for particular Crypto coin
+    default_enabled: true, // To specify whether currency is enabled or disabled by default
+    transaction_link: "https://www.blockchain.com/btc/tx/", // Value of Base URL to visit transaction details page based on hash for particular Crypto coin
     coin_type: "bitcoin", // Value is used to specify type of crypto currency (For ex. "bitcoin" for Bitcoin based Crypto Currency, "ethereum" for Ethereum based Crypto Currency and "token" for Tokens)
   },
   {
@@ -22,7 +22,7 @@ export const addCurrency = [
     tatum_coin_name: "litecoin",
     is_erc20: false,
     default_enabled: false,
-    transaction_link: "https://www.blockchain.com/btc-testnet/tx/",
+    transaction_link: "https://www.blockchain.com/btc/tx/",
     coin_type: "bitcoin",
   },
   {
@@ -30,12 +30,12 @@ export const addCurrency = [
     currency: "ETH",
     display_currency: "ETH",
     coingecko_coin_name: "ethereum",
-    moralis_api_chain: "ropsten",
+    moralis_api_chain: "mainnet",
     moralis_coin_name: "ethereum",
     tatum_coin_name: "ethereum",
     is_erc20: false,
-    default_enabled: true,
-    transaction_link: "https://ropsten.etherscan.io/tx/",
+    default_enabled: false,
+    transaction_link: "https://etherscan.io/tx/",
     coin_type: "ethereum",
   },
   {
@@ -49,7 +49,7 @@ export const addCurrency = [
     tatum_coin_name: "bsc",
     is_erc20: false,
     default_enabled: false,
-    transaction_link: "https://testnet.bscscan.com/tx/",
+    transaction_link: "https://bscscan.com/tx/",
     coin_type: "ethereum",
   },
   {
@@ -113,7 +113,7 @@ export const addCurrency = [
     contract_address: "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee",
     digits: 18,
     default_enabled: false,
-    transaction_link: "https://testnet.bscscan.com/tx/",
+    transaction_link: "https://bscscan.com/tx/",
     coin_type: "token",
     coin_name: "BSC",
     chain: "bsc testnet",

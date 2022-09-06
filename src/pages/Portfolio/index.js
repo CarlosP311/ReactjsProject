@@ -167,7 +167,7 @@ const Portfolio = () => {
           <div className="zl_all_page_comman_total_price">
             <p className="zl_all_page_total_price_heading">Total Balance</p>
             <h2 className="zl_all_page_total_price_text">
-              ${totalBalance.toFixed(4)}
+              ${totalBalance.toFixed(6)}
             </h2>
             {/* <span className="zl_all_page_total_price_up_text">
               {increaseIcon}

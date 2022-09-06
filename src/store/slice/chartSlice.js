@@ -9,6 +9,7 @@ export const getCoinChart = createAsyncThunk(
         `/coins/${data.coin}/market_chart/range?vs_currency=${data.currency ||
         "usd"}&from=${data.from_date}&to=${data.to_date}`
       );
+      // console.log('chart', response.data)
       return { [data.coin]: response.data };
     } catch (error) {
       console.log("error", error);
@@ -24,6 +25,7 @@ export const getCoinLargeChart = createAsyncThunk(
         `/coins/${data.coin}/market_chart/range?vs_currency=${data.currency ||
         "usd"}&from=${data.from_date}&to=${data.to_date}`
       );
+      console.log('largechart', response.data)
       return { [data.coin]: response.data };
     } catch (error) {
       console.log("error", error);

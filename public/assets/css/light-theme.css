@@ -85,7 +85,11 @@
   .zl_welcome_slide_step_btns {
   color: #fff;
 }
-.zl_light_theme_active .zl_login_section .zl_login_content .zl_login_btn .zl_login_btn_link {
+.zl_light_theme_active
+  .zl_login_section
+  .zl_login_content
+  .zl_login_btn
+  .zl_login_btn_link {
   color: #fff;
 }
 .zl_light_theme_active
@@ -700,6 +704,111 @@
   .zl_history_page
   .zl_add_currency_row.nav::-webkit-scrollbar-thumb:hover {
   background: #828cae;
+}
+
+.zl_light_theme_active .select-action__select-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.zl_light_theme_active .select-action__select-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 388px;
+  height: 278px;
+  border: 1px solid #d6d9dc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 8px;
+}
+.zl_light_theme_active .select-action__button-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 144px;
+}
+.zl_light_theme_active .select-action__button-symbol {
+  color: #bbc0c5;
+  margin-top: 41px;
+}
+.zl_light_theme_active .select-action__button-text-big {
+  font-size: 1.125rem;
+  font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 140%;
+  font-style: normal;
+  font-weight: normal;
+  color: #24272a;
+  margin-top: 12px;
+  text-align: center;
+}
+.zl_light_theme_active .select-action__button-text-small {
+  font-size: 0.875rem;
+  font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 140%;
+  font-style: normal;
+  font-weight: normal;
+  color: #535a61;
+  margin-top: 10px;
+  text-align: center;
+}
+.zl_light_theme_active .select-action__select-button .first-time-flow__button {
+  max-width: 221px;
+  height: 44px;
+}
+.zl_light_theme_active .btn--rounded.btn-primary {
+  background-color: #037dd6;
+}
+.zl_light_theme_active .select-action button {
+  font-weight: 500;
+  width: 221px;
+}
+.zl_light_theme_active .first-time-flow__button {
+  margin: 35px 0 14px;
+  width: 170px;
+  height: 44px;
+}
+.zl_light_theme_active .btn--rounded {
+  border-radius: 100px;
+  will-change: box-shadow;
+  transition: box-shadow cubic-bezier(0.6, -0.28, 0.735, 0.045) 200ms;
+}
+.zl_light_theme_active .btn-primary {
+  color: #fcfcfc;
+  border: 1px solid #037dd6;
+  background-color: #037dd6;
+}
+.zl_light_theme_active .button {
+  font-size: 0.875rem;
+  font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 140%;
+  font-style: normal;
+  font-weight: normal;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 6px;
+  width: 100%;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.zl_light_theme_active .table_title__color {
+  font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;
+  color: #0b0909e6;
+}
+.zl_light_theme_active .table_text__color {
+  font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;
+  color: #24272a;
+}
+
+.zl_light_theme_active .table_text__color tr:hover {
+  color: #24272a !important;
 }
 
 @media (max-width: 991px) {

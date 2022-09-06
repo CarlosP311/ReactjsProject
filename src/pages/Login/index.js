@@ -1,89 +1,74 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../constants";
-import { loginPageAction } from "../../store/slice/authSlice";
+import { createWalletAction } from "../../store/slice/authSlice";
+import bcrypt from 'bcryptjs';
+import Spinner from "react-bootstrap/Spinner";
+import "./css/Style.css"
 
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [words, setWords] = useState([]); // already created account 12 words observe dance pledge catch gun tuna head sort salute giggle gown resource
-  const [err, setErr] = useState("");
-
+  const [password, setPassword] = useState('');
+  const [err, setErr] = useState('');
   // console.log("words", words);
-
-  const onchangeHandler = (e, i) => {
-    setErr("");
-    const newArr = [...words];
-
-    newArr[i] = e.target.value.trim();
-
-    setWords(newArr);
-  };
-
-  const validate = () => {
-    let valid = false;
-    if (words.length < 12) {
-      setErr("Please enter valid 12 words of mnemonics for Login App");
-    } else {
-      valid = true;
-    }
-    return valid;
-  };
+  // console.log(localStorage)
 
   const loginHandler = () => {
-    if (validate()) {
-      dispatch(
-        loginPageAction({
-          params: words.join(" "),
-          cb: (err, response) => {
-            if (err) {
-              console.log("err", err);
-            }
-            if (response) {
-              navigate(routes.dashboardPage);
-            }
-          },
-        })
-      );
-    }
-  };
+    let savedPassword = localStorage.getItem('password');
+    bcrypt.compare(password, savedPassword)
+      .then(isCorrect => {
+        if (isCorrect) {
+          // console.log('mnemonics', localStorage?.getItem('mnemonics'))
+          dispatch(
+            createWalletAction({
+              params: JSON.parse(localStorage?.getItem('mnemonics')),
+              password: password,
+              cb: (err, response) => {
+                if (err) {
+                  console.log("err", err);
+                }
+                if (response) {
+                  navigate(routes.dashboardPage);
+                }
+              }
+            })
+          )
+        } else {
+          setErr('Wrong password!');
+        }
+      });
+  }
 
+  let loader = useSelector((state) => state.auth.loader);
+  if (loader)
+    return (
+      <div><Spinner animation="border" variant="primary" /></div>
+    );
   return (
     <section className="zl_login_section">
       <div className="zl_login_content container">
         <div className="zl_login_heading_text">
-          <h3 className="zl_login_heading">Login</h3>
-          <p className="zl_login_peregraph">
+          <br /><br /><br />
+          <h1 className="zl_login_heading">Login</h1>
+          {/* <p className="zl_login_peregraph">
             Login De-crypto app with your secret words.
-          </p>
+          </p> */}
         </div>
-        <div className="zl_login_row row">
-          {Array(12)
-            .fill("input")
-            .map((inputValue, i) => (
-              <div className="zl_login_col_3 col-lg-3 col-md-6" key={i}>
-                <div className="zl_login_input_content position-relative">
-                  <p className="zl_login_input_text">{i + 1}</p>
-                  <input
-                    type="text"
-                    className="zl_login_input"
-                    name={`input${i + 1}`}
-                    onChange={(e) => onchangeHandler(e, i)}
-                    placeholder="________"
-                  />
-                </div>
-              </div>
-            ))}
-        </div>
-        <div className="zl_login_btn">
-          {err && <span className="err_text">{err}</span>}
-          <button
-            className="mx-auto zl_login_btn_link"
-            onClick={() => loginHandler()}
-          >
-            Login
-          </button>
+        <br /><br /><br />
+        <div className = "container">
+          <div className = "container__item">
+            <form className ="form__item">
+              <input type="password" className = "form__field" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setErr(''); }}/>
+              {err}
+              <button type="button" className = "btn__login_ btn--primary btn--inside uppercase" onClick={loginHandler}>Login</button>
+            </form>
+          </div>
+          <br /><br />
+          <div className = "container__item container__item--bottom">
+            <p><Link to={routes.signupPage}>Create new wallet</Link></p>
+          </div>
         </div>
       </div>
     </section>

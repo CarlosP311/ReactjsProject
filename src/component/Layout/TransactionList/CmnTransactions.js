@@ -5,10 +5,9 @@ import { receiveIcon, sendIcon } from "../../../icons";
 const CmnTransactions = ({ transactions, allTransactions }) => {
   const allTransactionsCom = allTransactions
     ? allTransactions
-        .flat()
-        ?.sort((a, b) => new Date(b.time) - new Date(a.time))
+      .flat()
+      ?.sort((a, b) => new Date(b.time) - new Date(a.time))
     : transactions;
-
   return (
     <>
       <div className="overflow-auto">
@@ -56,13 +55,12 @@ const CmnTransactions = ({ transactions, allTransactions }) => {
                     {transactionListData.value}
                   </td>
                   <td
-                    className={`${
-                      transactionListData?.name === "ethereum"
-                        ? transactionListData.receipt_status === "1"
-                          ? "zl_transaction_completed"
-                          : "zl_transaction_failed"
-                        : "zl_transaction_completed"
-                    }
+                    className={`${transactionListData?.name === "ethereum"
+                      ? transactionListData.receipt_status === "1"
+                        ? "zl_transaction_completed"
+                        : "zl_transaction_failed"
+                      : "zl_transaction_completed"
+                      }
                      zl_transaction_list_status`}
                   >
                     {transactionListData?.name === "ethereum"

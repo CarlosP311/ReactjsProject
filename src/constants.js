@@ -7,10 +7,12 @@ export const routes = {
   historyPage: "/history",
   secureBackupPage: "/securebackup",
   settingsPage: "/settings",
-  restoreWalletPage: "/restorewallet",
+  addWalletPage: "/addwallet",
   currencyPage: "/currency",
 
   loginPage: "/login",
   signupPage: "/signup",
   logout: "/logout",
+  importWalletPage: "/importwallet",
+  createWalletPage: '/createwallet'
 };

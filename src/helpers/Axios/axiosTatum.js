@@ -1,10 +1,10 @@
 import axios from "axios";
 
 export const authHeadersTatum = (testType) => {
-  if (testType === "rinkeby") {
+  if (testType === "ropsten") {
     return {
       headers: {
-        "x-testnet-type": "ethereum-rinkeby",
+        "x-testnet-type": "ethereum-ropsten",
         "x-api-key": process.env.REACT_APP_TATUM_API_KEY,
       },
     };

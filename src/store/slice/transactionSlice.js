@@ -12,8 +12,10 @@ export const getTransactions = createAsyncThunk(
       if (data.coin_type === "bitcoin") {
         const response = await AxiosTatum.get(
           `/${data.coin}/transaction/address/${data.address}?pageSize=20&offset=0`,
+          // `/${data.coin}/transaction/address/${data.address}?pageSize=20&offset=0`,
           authHeadersTatum()
         );
+        console.log('reee', response)
         response.data.map((obj) => {
           obj["name"] = data.coin;
           obj["key"] = cryptoCoins.filter(
@@ -31,7 +33,7 @@ export const getTransactions = createAsyncThunk(
           return true;
         });
         console.log("responseDATA)))", [data.coin], response.data);
-        return { [data.coin]: response.data };
+        return { [data.coin]: response.data, currentAccount: data.currentAccount };
       } else {
         // const response = await AxiosTatum.get(`/`)
         const response = await AxiosMoralis.get(
@@ -55,7 +57,7 @@ export const getTransactions = createAsyncThunk(
           return true;
         });
         console.log("responseDATA)))", [data.coin], response.data.result);
-        return { [data.coin]: response.data.result };
+        return { [data.coin]: response.data.result, currentAccount: data.currentAccount };
       }
     } catch (error) {
       console.log("error", error);
@@ -75,7 +77,8 @@ export const getErc20Transactions = createAsyncThunk(
       return {
         [data.contract_address]: response.data.result?.filter(
           (item) => item.address === data.contract_address
-        ),
+        )
+        , currentAccount: data.currentAccount
       };
     } catch (error) {
       console.log("error", error.response);
@@ -106,12 +109,14 @@ const transactionSlice = createSlice({
     builder.addCase(getTransactions.fulfilled, (state, action) => {
       state.loader = false;
 
-      const transactionValue = (data, coin) => {
+      console.log('action', action);
+
+      const transactionValue = (data, coin, currentAccount) => {
         if (
           data?.inputs?.filter(
             (obj) =>
               obj.coin.address ===
-              JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+              JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount][
                 coin
               ]?.address
           ).length > 0
@@ -120,7 +125,7 @@ const transactionSlice = createSlice({
             data?.outputs?.filter(
               (obj) =>
                 obj.address !==
-                JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+                JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount][
                   coin
                 ]?.address
             )[0].value /
@@ -131,7 +136,7 @@ const transactionSlice = createSlice({
             data?.outputs?.filter(
               (obj) =>
                 obj.address ===
-                JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+                JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount][
                   coin
                 ]?.address
             )[0].value /
@@ -140,12 +145,12 @@ const transactionSlice = createSlice({
         }
       };
 
-      const creditDebit = (data, coin) => {
+      const creditDebit = (data, coin, currentAccount) => {
         if (
           data?.inputs?.filter(
             (obj) =>
               obj.coin.address ===
-              JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+              JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount][
                 coin
               ]?.address
           ).length > 0
@@ -175,6 +180,8 @@ const transactionSlice = createSlice({
               [cryptoCoins[i].coingecko_coin_name]: action.payload[
                 cryptoCoins[i].coingecko_coin_name
               ].map((item, i) => {
+                // console.log([1, 3, 2].findIndex(value => 3 === value))
+                // console.log('addresses', JSON.parse(localStorage.getItem("user_crypto_currency_data")).findIndex(account=>account[item.key]?.address === ));
                 return {
                   name: item.name,
                   image: item.image,
@@ -182,27 +189,27 @@ const transactionSlice = createSlice({
                   coinLink: item.coinLink,
                   classTransactions:
                     item.coin_type === "bitcoin"
-                      ? creditDebit(item, item.key)
+                      ? creditDebit(item, item.key, action.payload.currentAccount)
                       : item?.from_address !==
                         JSON.parse(
                           localStorage.getItem("user_crypto_currency_data")
-                        )[item.key]?.address
-                      ? "zl_transaction_pluse"
-                      : "zl_transaction_minas",
+                        )[action.payload.currentAccount][item.key]?.address
+                        ? "zl_transaction_pluse"
+                        : "zl_transaction_minas",
                   transactionIcon:
                     item.coin_type === "bitcoin"
-                      ? creditDebit(item, item.key) === "zl_transaction_pluse"
+                      ? creditDebit(item, item.key, action.payload.currentAccount) === "zl_transaction_pluse"
                         ? "receiveIcon"
                         : "sendIcon"
                       : item?.from_address !==
                         JSON.parse(
                           localStorage.getItem("user_crypto_currency_data")
-                        )[item.key]?.address
-                      ? "receiveIcon"
-                      : "sendIcon",
+                        )[action.payload.currentAccount][item.key]?.address
+                        ? "receiveIcon"
+                        : "sendIcon",
                   value:
                     item.coin_type === "bitcoin"
-                      ? transactionValue(item, item.key)
+                      ? transactionValue(item, item.key, action.payload.currentAccount)
                       : Number(item.value) / 10 ** 18,
                   receipt_status: item.receipt_status,
                   hash: item.hash,
@@ -252,16 +259,16 @@ const transactionSlice = createSlice({
                 coinLink: th.coinLink,
                 classTransactions:
                   th?.from_address !==
-                  JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
-                    th?.currency
-                  ]?.address
+                    JSON.parse(localStorage.getItem("user_crypto_currency_data"))[action.payload.currentAccount][
+                      th?.currency
+                    ]?.address
                     ? "zl_transaction_pluse"
                     : "zl_transaction_minas",
                 transactionIcon:
                   th?.from_address !==
-                  JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
-                    th?.currency
-                  ]?.address
+                    JSON.parse(localStorage.getItem("user_crypto_currency_data"))[action.payload.currentAccount][
+                      th?.currency
+                    ]?.address
                     ? "receiveIcon"
                     : "sendIcon",
                 hash: th.transaction_hash,

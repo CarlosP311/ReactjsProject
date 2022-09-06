@@ -44,7 +44,7 @@ const TransactionForm = ({
           coin_type: "ethereum",
           address: JSON.parse(
             localStorage.getItem("user_crypto_currency_data")
-          )[keyCoin]?.address,
+          )[currentAccount][keyCoin]?.address,
           coin: tatum_coin_name,
         })
       );
@@ -87,9 +87,10 @@ const TransactionForm = ({
     balance?.filter((item) => item.name === display_currency)[0]?.balance;
   console.log("coinBalance", keyCoin, coinBalance, balance);
 
+  const currentAccount = useSelector((state) => state.auth.currentAccount);
   const transactionAddress =
     localStorage.getItem("user_crypto_currency_data") &&
-    JSON.parse(localStorage.getItem("user_crypto_currency_data"))[`${keyCoin}`]
+    JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount][`${keyCoin}`]
       ?.address;
 
   const calculateTransactionFees = async () => {
@@ -99,7 +100,9 @@ const TransactionForm = ({
       amount: insertAmount,
       to: insertAddress,
       balance: coinBalance,
+      currentAccount: currentAccount
     });
+    // console.log('key-coin', keyCoin)
     // console.log("coin%$%$", insertAmount, insertAddress, coinBalance);
     return coin.TransactionFees();
   };
@@ -173,6 +176,7 @@ const TransactionForm = ({
 
   useEffect(() => {
     async function calculateFee() {
+      // console.log('fd')
       if (validate()) {
         const transactionFees = await calculateTransactionFees();
         console.log("transactionFees$%$%", transactionFees);
@@ -224,6 +228,7 @@ const TransactionForm = ({
       }
     }
     insertAddress && insertAmount && calculateFee();
+    console.log(insertAmount)
   }, [insertAmount]);
 
   console.log("totalAmount", totalAmount);
@@ -321,6 +326,7 @@ const TransactionForm = ({
         to: insertAddress,
         fee: transactionFees,
         balance: coinBalance,
+        currentAccount: currentAccount
       });
       console.log("sendTransaction", sendTransaction);
 

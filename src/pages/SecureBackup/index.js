@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HeadingModule from "../../component/Layout/Header";
 
 const SecureBackup = () => {
   const inputField = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  const recWords = localStorage.getItem("mnemonics").split(" ");
+  const currentAccount = useSelector(state => state.auth.currentAccount);
+  const recWords = JSON.parse(localStorage.getItem("mnemonics"))[currentAccount].split(" ");
 
   const [value, setValue] = useState([]);
   const [recState, setRecState] = useState(false);
@@ -13,7 +15,7 @@ const SecureBackup = () => {
   useEffect(() => {
     setValue(recWords);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentAccount]);
 
   return (
     <section className="zl_securebackup_page">

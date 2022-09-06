@@ -21,11 +21,13 @@ const Wallets = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
 
   // console.log("allTransactions", transactions);
+  // localStorage.clear()
 
   let valueCoin = cryptoCoins.filter((obj) => obj.currency === key)[0];
   console.log("valueCoin", valueCoin);
 
   const [walletTransaction, setWalletTransaction] = useState([]);
+  const currentAccount = useSelector((state) => state.auth.currentAccount);
 
   useEffect(() => {
     if (valueCoin?.is_erc20) {
@@ -50,25 +52,27 @@ const Wallets = () => {
       // console.log("value", value);
       let currencyAddress = JSON.parse(
         localStorage.getItem("user_crypto_currency_data")
-      )[value.currency]?.address;
+      )[currentAccount][value.currency]?.address;
 
       dispatch(
         value?.is_erc20
           ? getErc20Transactions({
-              address: currencyAddress,
-              chain: value.chain,
-              contract_address: value?.contract_address,
-            })
+            currentAccount: currentAccount,
+            address: currencyAddress,
+            chain: value.chain,
+            contract_address: value?.contract_address,
+          })
           : getTransactions({
-              coin_type: value.coin_type,
-              coin: value.coingecko_coin_name,
-              chain: value.moralis_api_chain,
-              address: currencyAddress,
-            })
+            coin_type: value.coin_type,
+            coin: value.coingecko_coin_name,
+            chain: value.moralis_api_chain,
+            currentAccount: currentAccount,
+            address: currencyAddress,
+          })
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  }, [key, currentAccount]);
 
   return (
     <>

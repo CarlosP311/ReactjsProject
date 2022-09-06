@@ -12,13 +12,14 @@ class ERC20Based {
     this.contractAddress = props.contractAddress;
     this.toAddress = props.to;
     this.digits = props.digits;
+    this.currentAccount = props.currentAccount;
     this.transactionAddress =
       localStorage.getItem("user_crypto_currency_data") &&
-      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.key]
+      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.currentAccount][this.key]
         ?.address;
     this.privateKey =
       localStorage.getItem("user_crypto_currency_data") &&
-      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.key]
+      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.currentAccount][this.key]
         ?.privateKey;
     this.fee = props.fee;
     this.feesData = {

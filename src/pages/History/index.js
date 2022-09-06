@@ -51,6 +51,7 @@ const History = () => {
   }, [transactions, valueCoin?.currency]);
 
   const loader = useSelector((state) => state.transactions.loader);
+  const currentAccount = useSelector((state) => state.auth.currentAccount);
   let value;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,21 +60,23 @@ const History = () => {
       value = cryptoCoins.filter((obj) => obj.currency === key)[0];
       let currencyAddress = JSON.parse(
         localStorage.getItem("user_crypto_currency_data")
-      )[value.currency]?.address;
+      )[currentAccount][value.currency]?.address;
 
       dispatch(
         value?.is_erc20
           ? getErc20Transactions({
-              address: currencyAddress,
-              chain: value?.chain,
-              contract_address: value?.contract_address,
-            })
+            currentAccount: currentAccount,
+            address: currencyAddress,
+            chain: value?.chain,
+            contract_address: value?.contract_address,
+          })
           : getTransactions({
-              coin_type: value.coin_type,
-              coin: value.coingecko_coin_name,
-              chain: value.moralis_api_chain,
-              address: currencyAddress,
-            })
+            coin_type: value.coin_type,
+            coin: value.coingecko_coin_name,
+            chain: value.moralis_api_chain,
+            currentAccount: currentAccount,
+            address: currencyAddress,
+          })
       );
     } else {
       dispatch(clearTransactions());
@@ -85,13 +88,15 @@ const History = () => {
               coin_type: cryptoCoins[i].coin_type,
               coin: cryptoCoins[i].coingecko_coin_name,
               chain: cryptoCoins[i].moralis_api_chain,
-              address: userCurrency[cryptoCoins[i].currency]?.address,
+              currentAccount: currentAccount,
+              address: userCurrency[currentAccount][cryptoCoins[i].currency]?.address,
             })
           );
         } else {
           dispatch(
             getErc20Transactions({
-              address: userCurrency[cryptoCoins[i].currency]?.address,
+              currentAccount: currentAccount,
+              address: userCurrency[currentAccount][cryptoCoins[i].currency]?.address,
               chain: cryptoCoins[i]?.chain,
               contract_address: cryptoCoins[i]?.contract_address,
             })
@@ -99,8 +104,9 @@ const History = () => {
         }
       }
     }
-  }, [key]);
+  }, [key, currentAccount]);
 
+  // console.log('Transaction', allTransaction)
   return (
     <>
       {loader && <Loader />}

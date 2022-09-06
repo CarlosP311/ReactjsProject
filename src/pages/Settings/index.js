@@ -59,11 +59,11 @@ const Setting = ({ themHandler }) => {
               </svg>
             </div>
           </Link>
-          <Link to={routes.restoreWalletPage} className="zl_setting_list_items">
+          <Link to={routes.addWalletPage} className="zl_setting_list_items">
             <div className="zl_setting_items_heading_peregraph">
-              <h3>Restore Wallet</h3>
+              <h3>Add Wallet</h3>
               <p>
-                Overwrite your current mobile wallet using a 12-word recovery
+                Add your current wallet using a 12-word recovery
                 pharse.
               </p>
             </div>

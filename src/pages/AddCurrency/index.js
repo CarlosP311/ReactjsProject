@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  getBalanceAll
+} from "../../store/slice/balanceSlice";
 import HeadingModule from "../../component/Layout/Header";
 import { InputGroup, FormControl, Form } from "react-bootstrap";
 import { searchIcon } from "../../icons";
@@ -6,6 +10,7 @@ import { generateWalletForCrypto } from "../../helpers/wallet";
 import { addCurrency } from "../../constantsData/addCurrency";
 
 const AddCurrency = () => {
+  const dispatch = useDispatch();
   const initialValue = () => {
     if (localStorage.getItem("checkCrypto")) {
       const tempCheck = {};
@@ -44,29 +49,33 @@ const AddCurrency = () => {
       localStorage.getItem("checkCrypto") &&
       localStorage.getItem("mnemonics")
     ) {
-      let resData = {};
+      let resData = [];
       let errorForResData = [];
       let cryptoData = await JSON.parse(localStorage.getItem("checkCrypto"));
 
-      for (let crypto of cryptoData) {
-        // if (crypto.is_erc20) {
-        //   continue;
-        // }
-        try {
-          let res = await generateWalletForCrypto(
-            localStorage.getItem("mnemonics"),
-            `${crypto.is_erc20 ? crypto.coin_name : crypto.currency}`
-          );
-          resData[`${crypto.currency}`] = res;
-        } catch (error) {
-          errorForResData.push(error);
+      let mnemonics = await JSON.parse(localStorage.getItem('mnemonics'));
+      // console.log(mnemonics)
+      for (let mnemonic of mnemonics) {
+        let res = {};
+        for (let crypto of cryptoData) {
+          try {
+            res[crypto.currency] = await generateWalletForCrypto(
+              mnemonic,
+              crypto.is_erc20 ? crypto.coin_name : crypto.currency
+            );
+          } catch (error) {
+            errorForResData.push(error);
+          }
         }
+        resData.push(res);
       }
       if (errorForResData.length === 0) {
         localStorage.setItem(
           "user_crypto_currency_data",
           JSON.stringify(resData)
         );
+
+        dispatch(getBalanceAll());
         // data.cb(null, resData);
       } else {
         // return data.cb(errorForResData[0], null);
@@ -130,20 +139,20 @@ const AddCurrency = () => {
                     type="switch"
                     id={currencyValue.currency}
                     label=""
-                    disabled={currencyValue.currency === "ETH"}
+                    // disabled={currencyValue.currency === "ETH"}
                     className="zl_custom_currency_checkbox custom-switch"
                     onChange={(e) => checkHandler(e)}
                     checked={
                       localStorage.getItem("checkCrypto")
                         ? JSON.parse(localStorage.getItem("checkCrypto")).some(
-                            (item) => {
-                              if (
-                                item.currency === currencyValue.currency &&
-                                !!check[currencyValue.currency]
-                              )
-                                return true;
-                            }
-                          )
+                          (item) => {
+                            if (
+                              item.currency === currencyValue.currency &&
+                              !!check[currencyValue.currency]
+                            )
+                              return true;
+                          }
+                        )
                           ? true
                           : false
                         : !!check[currencyValue.currency]

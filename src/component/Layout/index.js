@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
     if (typeof window !== "undefined") {
       setColor(localStorage.getItem("themColor"));
       !localStorage.getItem("currency") &&
-        localStorage.setItem("currency", "AUD");
+        localStorage.setItem("currency", "USD");
     }
   }, []);
 
@@ -29,9 +29,8 @@ const Layout = ({ children }) => {
 
   return (
     <div
-      className={`zl_all_pages_content ${
-        color === null ? "zl_light_theme_active" : color
-      }`}
+      className={`zl_all_pages_content ${color === null ? "zl_light_theme_active" : color
+        }`}
     >
       <Sidebar title={title} />
       <div className="zl_all_pages_inner_content">

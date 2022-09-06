@@ -13,9 +13,10 @@ class MATICBasedERC20 extends ERC20Based {
     this.toAddress = props.to;
     this.contractAddress = props.contractAddress;
     this.amount = props.amount;
+    this.currentAccount = props.currentAccount;
     this.transactionAddress =
       localStorage.getItem("user_crypto_currency_data") &&
-      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.key]
+      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.currentAccount][this.key]
         ?.address;
 
     this.feesData = {

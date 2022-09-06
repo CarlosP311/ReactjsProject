@@ -6,7 +6,7 @@ import Wallets from "./pages/Wallets";
 import History from "./pages/History";
 import SecureBackup from "./pages/SecureBackup";
 import Settings from "./pages/Settings";
-import RestoreWallet from "./pages/RestoreWallet";
+import AddWallet from "./pages/AddWallet";
 import Currency from "./pages/Currency";
 import LogIn from "./pages/Login";
 import Page404 from "./pages/Page404";
@@ -14,8 +14,10 @@ import Page404 from "./pages/Page404";
 import { routes } from "../src/constants";
 import WelcomeModule from "./pages/Welcome";
 import Signup from "./pages/Signup";
+import ImportWallet from "./pages/ImportWallet";
+import CreateWallet from './pages/CreateWallet';
 
-const getRoutes = (user_crypto_currency_data) => [
+const getRoutes = (user_crypto_currency_data, mnemonics) => [
   {
     path: routes.welcomePage,
     element: !user_crypto_currency_data ? (
@@ -24,9 +26,31 @@ const getRoutes = (user_crypto_currency_data) => [
       <Navigate to={routes.dashboardPage} />
     ),
     children: [
-      { path: routes.welcomePage, element: <WelcomeModule /> },
-      { path: routes.loginPage, element: <LogIn /> },
+      {
+        path: routes.welcomePage,
+        element: !mnemonics ? (
+          <Outlet />
+        ) : (
+          <Navigate to={routes.loginPage} />
+        ),
+        children: [
+          { path: routes.welcomePage, element: <WelcomeModule /> },
+        ]
+      },
       { path: routes.signupPage, element: <Signup /> },
+      { path: routes.importWalletPage, element: <ImportWallet /> },
+      { path: routes.createWalletPage, element: <CreateWallet /> },
+      {
+        path: routes.welcomePage,
+        element: mnemonics ? (
+          <Outlet />
+        ) : (
+          <Navigate to={routes.signupPage} />
+        ),
+        children: [
+          { path: routes.loginPage, element: <LogIn /> }
+        ]
+      }
     ],
   },
   {
@@ -44,7 +68,7 @@ const getRoutes = (user_crypto_currency_data) => [
       { path: routes.historyPage, element: <History /> },
       { path: routes.secureBackupPage, element: <SecureBackup /> },
       { path: routes.settingsPage, element: <Settings /> },
-      { path: routes.restoreWalletPage, element: <RestoreWallet /> },
+      { path: routes.addWalletPage, element: <AddWallet /> },
       { path: routes.currencyPage, element: <Currency /> },
     ],
   },
@@ -59,7 +83,7 @@ const getRoutes = (user_crypto_currency_data) => [
       { path: routes.loginPage, element: <LogIn /> },
       { path: "*", element: <LogIn /> },
     ],
-  },
+  }
 ];
 
 export default getRoutes;

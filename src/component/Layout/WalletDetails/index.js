@@ -170,6 +170,7 @@ const WalletDetails = (props) => {
               <p className="zl_all_page_total_price_heading">Total Balance</p>
               <h2 className="zl_all_page_total_price_text">
                 $ {coinBalance?.fiat_balance?.toFixed(4)}
+                {' '}&nbsp;&nbsp;&nbsp;{coinBalance?.balance?.toFixed(6)}{' '}{coin_name ? coin_name : keyCoin}
               </h2>
               <span
                 className={

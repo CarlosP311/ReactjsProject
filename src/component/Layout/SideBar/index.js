@@ -28,6 +28,7 @@ const Header = ({ title }) => {
         className={`zl_page_sidebar ${send ? "zl_hide_sidebar" : ""}`}
         title={title}
       >
+        {/* {title} */}
         <div className="zl_page_sidebar_content">
           <div className="zl_page_sidebar_logo">
             <button

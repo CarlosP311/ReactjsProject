@@ -9,14 +9,15 @@ class BTCBased {
     this.keyCoin = props.keyCoin;
     this.amount = props.amount;
     this.toAddress = props.to;
+    this.currentAccount = props.currentAccount;
     this.transactionAddress =
       localStorage.getItem("user_crypto_currency_data") &&
-      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.currentAccount][
         this.keyCoin
       ]?.address;
     this.privateKey =
       localStorage.getItem("user_crypto_currency_data") &&
-      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[
+      JSON.parse(localStorage.getItem("user_crypto_currency_data"))[this.currentAccount][
         this.keyCoin
       ]?.privateKey;
     this.balance = props.balance;

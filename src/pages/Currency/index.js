@@ -10,19 +10,19 @@ const Currency = () => {
 
   const currencyList = [
     {
-      image: "Australia.png", // Currency image
+      image: "USA.png", // Currency image
       currency: "USD", // Currency name which is supported by Coingecko
       currency_type: "American Dollar", // Currency type
-    },
-    {
-      image: "Brazil.png",
-      currency: "BRL",
-      currency_type: "Brazilian Real",
     },
     {
       image: "Canada.png",
       currency: "CAD",
       currency_type: "Canadian Dollar",
+    },
+    {
+      image: "EUROPE.png",
+      currency: "EUR",
+      currency_type: "Europe",
     },
     {
       image: "Australia.png",
@@ -34,20 +34,20 @@ const Currency = () => {
       currency: "CHF",
       currency_type: "Swiss France",
     },
-    {
-      image: "China.png",
-      currency: "CNY",
-      currency_type: "Chinese Yuan",
-    },
     // {
     //   image: "Germany.png",
     //   currency: "DEM",
     //   currency_type: "Germany",
     // },
     {
-      image: "EUROPE.png",
-      currency: "EUR",
-      currency_type: "Europe",
+      image: "China.png",
+      currency: "CNY",
+      currency_type: "Chinese Yuan",
+    },
+    {
+      image: "Brazil.png",
+      currency: "BRL",
+      currency_type: "Brazilian Real",
     },
     // {
     //   image: "France.png",

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const authHeadersCoingecko = () => {
+export const authHeadersCoingecko = (currentAccount) => {
   const authToken =
     localStorage.getItem("user_crypto_currency_data") &&
-    JSON.parse(localStorage.getItem("user_crypto_currency_data")).token;
+    JSON.parse(localStorage.getItem("user_crypto_currency_data"))[currentAccount].token;
   return {
     headers: { Authorization: `bearer ${authToken}` },
   };
